@@ -135,15 +135,12 @@
     });
 
     botaoSim.addEventListener("click", function() {
-        // Toca a música primeiro para garantir a permissão do navegador
         audio.play().catch(e => console.log("Erro ao iniciar áudio"));
 
-        // Explosão imediata de corações
         for(let i = 0; i < 40; i++) {
             criarExplosao();
         }
 
-        // Delay curto para a transição visual
         setTimeout(() => {
             container.style.display = "none"; 
             
@@ -189,4 +186,3 @@
 
 </body>
 </html>
-
