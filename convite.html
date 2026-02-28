@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quase 3 anos 💖</title>
+
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #ff9ecf, #ffcce6);
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #conteudo-principal {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 2;
+            max-width: 350px;
+            width: 90%;
+        }
+
+        img {
+            width: 100%;
+            max-width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        h1 { color: #ff1493; font-size: 22px; }
+        p { color: #333; line-height: 1.6; font-size: 16px; }
+        h2 { color: #ff1493; font-size: 18px; margin-top: 20px; }
+
+        .btn-group {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            height: 50px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        #sim { background-color: #ff1493; color: white; }
+        #nao { background-color: #ccc; color: #333; position: relative; }
+
+        .heart-bg {
+            position: fixed;
+            top: -20px;
+            font-size: 20px;
+            animation: fall linear infinite;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes fall { to { transform: translateY(110vh); } }
+
+        .explosion {
+            position: fixed;
+            font-size: 30px;
+            pointer-events: none;
+            animation: explode 1s ease-out forwards;
+            z-index: 10;
+        }
+
+        @keyframes explode {
+            to {
+                transform: translate(var(--x), var(--y));
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="musica" loop>
+        <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="conteudo-principal">
+        <img src="foto.jpg" alt="💖" onerror="this.src='https://via.placeholder.com/250?text=Sua+Foto+Aqui'">
+
+        <h1>💖 Feliz quase 3 anos de namoro de uma vida inteira 💖</h1>
+
+        <p>
+            Obrigada por tudo, você é incrível,<br>
+            o melhor namorado do mundo,<br>
+            meu melhor amigo, meu companheiro,<br>
+            mais que feliz em compartilhar minha vida com você...<br>
+            eu te amo muito ❤️
+        </p>
+
+        <h2>Vamos jantar? (você paga é claro 😏)</h2>
+
+        <div class="btn-group">
+            <button id="sim">Sim</button>
+            <button id="nao">Não</button>
+        </div>
+    </div>
+
+<script>
+    const botaoNao = document.getElementById("nao");
+    const botaoSim = document.getElementById("sim");
+    const audio = document.getElementById("musica");
+    const container = document.getElementById("conteudo-principal");
+    let tamanhoFonteNao = 16;
+
+    botaoNao.addEventListener("click", function() {
+        tamanhoFonteNao -= 2;
+        botaoNao.style.fontSize = tamanhoFonteNao + "px";
+        const x = Math.random() * 200 - 100;
+        const y = Math.random() * 200 - 100;
+        botaoNao.style.transform = `translate(${x}px, ${y}px)`;
+        if (tamanhoFonteNao <= 6) botaoNao.style.display = "none";
+    });
+
+    botaoSim.addEventListener("click", function() {
+        // Toca a música primeiro para garantir a permissão do navegador
+        audio.play().catch(e => console.log("Erro ao iniciar áudio"));
+
+        // Explosão imediata de corações
+        for(let i = 0; i < 40; i++) {
+            criarExplosao();
+        }
+
+        // Delay curto para a transição visual
+        setTimeout(() => {
+            container.style.display = "none"; 
+            
+            const telaFinal = document.createElement("div");
+            telaFinal.style.cssText = "display:flex; justify-content:center; align-items:center; height:100vh; width:100vw; background:#ff69b4; position:fixed; top:0; left:0; z-index:999; text-align:center; color:white; font-family:Arial;";
+            telaFinal.innerHTML = `
+                <h1 style="font-size:35px; padding:20px; line-height: 1.4;">
+                    EU SABIAAAA 😍💖<br><br>
+                    Te amo muitoooo ❤️<br><br>
+                    Então se arruma que hoje tem jantar ;)
+                </h1>
+            `;
+            document.body.appendChild(telaFinal);
+        }, 500);
+    });
+
+    function criarCoracaoCaindo() {
+        const heart = document.createElement("div");
+        heart.classList.add("heart-bg");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+    }
+
+    function criarExplosao() {
+        let heart = document.createElement("div");
+        heart.classList.add("explosion");
+        heart.innerHTML = "❤️";
+        heart.style.left = "50%";
+        heart.style.top = "50%";
+        let x = (Math.random() - 0.5) * 600 + "px";
+        let y = (Math.random() - 0.5) * 600 + "px";
+        heart.style.setProperty("--x", x);
+        heart.style.setProperty("--y", y);
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 1000);
+    }
+
+    setInterval(criarCoracaoCaindo, 300);
+</script>
+
+</body>
+</html>
